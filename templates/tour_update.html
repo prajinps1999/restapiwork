@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> UPDATE TOUR </h1>
+<form action=" " method="POST">
+    {% csrf_token %}
+     <label for="">PLACE NAME</label>
+    <input type="text" name="name" placeholder="ENTER PLACE NAME" value="{{index.name}}">
+    <label for="">WEATHER</label>
+    <input type="text" name="weather" placeholder="ENTER WEATHER" value="{{index.weather}}">
+    <label for="">LOCATION STATE</label>
+    <input type="text" name="location_state" placeholder=" ENTER STATE" value="{{index.location_state}}">
+    <label for="">LOCATION DISTRICT</label>
+    <input type="text" name="location_district" placeholder=" ENTER DISTRICT" value="{{index.location_district}}">
+    <label for="">DESCRIPTION</label>
+    <input type="text" name="description" placeholder=" ENTER DESCRIPTION" value="{{index.description}}">
+    <input type="submit" value="UPDATE">
+
+</form>
+</body>
+</html>

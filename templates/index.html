@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h3> ADD TOUR</h3>
+<div>
+    <a href="create_tour /">Create</a>
+    <form  action=" "  role="search" method='POST'>
+    {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" name="q" aria-label="Search">
+        <label for="">PLACE NAME</label>
+        <input type="text" name="name" placeholder="ENTER PLACE NAME" value="{{index.name}}">
+        <label for="">WEATHER</label>
+        <input type="text" name="weather" placeholder="ENTER WEATHER" value="{{index.weather}}">
+        <label for="">LOCATION STATE</label>
+        <input type="text" name="location_state" placeholder=" ENTER STATE" value="{{index.location_state}}">
+        <label for="">LOCATION DISTRICT</label>
+        <input type="text" name="location_district" placeholder=" ENTER DISTRICT" value="{{index.location_district}}">
+        <label for="">DESCRIPTION</label>
+        <input type="text" name="description" placeholder=" ENTER DESCRIPTION" value="{{index.description}}"><br>
+        <input type="submit" value="UPDATE">
+    </form>
+
+</div>
+<table class="table" align="100px" >
+
+    <thead>
+    <tr>
+        <th scope="col">NO</th>
+        <th scope="col">NAME</th>
+        <th scope="col">WEATHER</th>
+        <th scope="col">LOCATION STATE</th>
+        <th scope="col">LOCATION DISTRICT</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">ACTION</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+        {% if data %}
+        {% for data in data %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ data.name }}</td>
+            <td>{{ data.weather }}</td>
+            <td>{{ data.location_state }}</td>
+            <td>{{ data.location_district }}</td>
+            <td>{{ data.description }}</td>
+
+            <td>
+                <a href="/detail/{{data.id}}" class="btn btn-primary">DETAILS</a>
+                <a href="/update/{{data.id}}" class="btn btn-success">UPDATE</a>
+                <a href="/delete/{{data.id}}" class="btn btn-danger">DELETE</a>
+
+            </td>
+    </tr>
+        {% endfor %}
+    {% else %}
+        {% for tours in tour %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ tours.Name }}</td>
+            <td>{{ tours.Weather }}</td>
+            <td>{{ tours.Location_State }}</td>
+            <td>{{ tours.Location_District }}</td>
+            <td>{{ tours.Description }}</td>
+
+            <td>
+                <a href="/detail/{{tours.id}}" class="btn btn-primary">DETAILS</a>
+                <a href="/update/{{tours.id}}" class="btn btn-success">UPDATE</a>
+                <a href="/delete/{{tours.id}}" class="btn btn-danger">DELETE</a>
+
+            </td>
+    </tr>
+        {% endfor %}
+    {% endif %}
+
+    </tbody>
+</table>
+{% endblock %}
+

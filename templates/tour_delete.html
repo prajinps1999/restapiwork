@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>DELETE TOUR DETAILS {{ index.name}}</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <h2>Are you sure?</h2>
+    <input type="submit" value="Confirm delete">
+</form>
+
+</body>
+</html>
