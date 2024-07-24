@@ -11,9 +11,9 @@ urlpatterns = [
     path('search/<str:Name>/',TourSearchViewSet.as_view(),name="Search"),
 
     path('create_tour/',views.create_tour,name='create_tour'),
-    path('tour_fetch/<int:pd>/',views.tour_fetch,name='tour_fetch'),
-    path('update_tour/<int:pd>/',views.update_tour,name='update_tour'),
-    path('tour_delete/<int:pd>/',views.tour_delete,name='tour_delete'),
-    path('update_detail/<int:pd>/',views.update_detail,name='update_detail'),
+    path('tour_fetch/<int:id>/',views.tour_fetch,name='tour_fetch'),
+    path('update_tour/<int:id>/',views.update_tour,name='update_tour'),
+    path('delete_tour/<int:id>/',views.delete_tour,name='delete_tour'),
+    path('update_detail/<int:id>/',views.update_detail,name='update_detail'),
 
 ]

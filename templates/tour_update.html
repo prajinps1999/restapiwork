@@ -9,15 +9,15 @@
 <form action=" " method="POST">
     {% csrf_token %}
      <label for="">PLACE NAME</label>
-    <input type="text" name="name" placeholder="ENTER PLACE NAME" value="{{index.name}}">
+    <input type="text" name="name" placeholder="ENTER PLACE NAME"  value="{{index.name}}"><br>
     <label for="">WEATHER</label>
-    <input type="text" name="weather" placeholder="ENTER WEATHER" value="{{index.weather}}">
+    <input type="text" name="weather" placeholder="ENTER WEATHER" value="{{index.weather}}"><br>
     <label for="">LOCATION STATE</label>
-    <input type="text" name="location_state" placeholder=" ENTER STATE" value="{{index.location_state}}">
+    <input type="text" name="location_state" placeholder=" ENTER STATE" value="{{index.location_state}}"><br>
     <label for="">LOCATION DISTRICT</label>
-    <input type="text" name="location_district" placeholder=" ENTER DISTRICT" value="{{index.location_district}}">
+    <input type="text" name="location_district" placeholder=" ENTER DISTRICT" value="{{index.location_district}}"><br>
     <label for="">DESCRIPTION</label>
-    <input type="text" name="description" placeholder=" ENTER DESCRIPTION" value="{{index.description}}">
+    <input type="text" name="description" placeholder=" ENTER DESCRIPTION" value="{{index.description}}"><br>
     <input type="submit" value="UPDATE">
 
 </form>

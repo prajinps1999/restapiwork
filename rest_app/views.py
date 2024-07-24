@@ -8,6 +8,8 @@ from .forms import TouristplacesForm
 import requests
 from django.contrib import messages
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
+from rest_framework import status
+from rest_framework.response import Response
 class TourCreateView(generics.ListCreateAPIView):
     queryset = Touristplaces.objects.all()
     serializer_class =Tourserializers
@@ -36,14 +38,15 @@ def create_tour(request):
         if form.is_valid():
             try:
                 form.save()
-                api_url='http://127.0.0.1:8000/create/'
+                api_url='http://127.0.0.1:8000/create_tour/'
                 data=form.cleaned_data
                 print(data)
 
-                response=request.post(api_url, data=data ,files={'Tour_img':request.FILES['Tour_img']})
+                response=requests.post(api_url, data=data ,files={'Images':request.FILES['Images']})
 
                 if response.status_code == 400:
                     messages.success(request, 'Tour inserted successfully')
+                    return redirect('/')
 
                 else:
                     messages.error(request, f'Error{response.status_code}')
@@ -55,6 +58,7 @@ def create_tour(request):
         form=TouristplacesForm()
     return render(request,'create_tour.html',{'form':form})
 
+
 def update_detail(request,id):
     api_url=f'http://127.0.0.1:8000/detail/{id}/'
     response=requests.get(api_url)
@@ -64,12 +68,12 @@ def update_detail(request,id):
 
 def update_tour(request,id):
     if request.method == 'POST':
-        name = request.POST['Name']
-        weather = request.POST['Weather']
-        location_state = request.POST['Location_State']
-        location_district = request.POST['Location_District']
-        print('Image Url', request.FILES.get('Tour_img'))
-        description = request.POST['Description']
+        name = request.POST['name']
+        weather = request.POST['weather']
+        location_state = request.POST['location_state']
+        location_district = request.POST['location_district']
+        print('Image Url', request.FILES.get('Images'))
+        description = request.POST['description']
 
         api_url = f'http://127.0.0.1:8000/update/{id}/'
 
@@ -80,47 +84,46 @@ def update_tour(request,id):
             'Location District' : location_district,
             'Description' : description
         }
-    files = {'Tour_image' : request.FILES.get('Tour_image')}
+        files = {'Images' : request.FILES.get('Images')}
 
-    response = request.put(api_url, data=data ,files=files)
-    if response.status_code == 200:
-        messages.success(request, 'Tour updated successfully')
-        return redirect('/')
-    else:
-        messages.error(request, f'Error submitting data to the REST API : {response.status_code}')
+        response = requests.put(api_url, data=data ,files=files)
+        if response.status_code == 200:
+            messages.success(request, 'Tour updated successfully')
+            return redirect('/')
+        else:
+            messages.error(request, f'Error submitting data to the REST API : {response.status_code}')
     return render(request, 'tour_update.html')
 
 def index(request):
     if request.method == 'POST':
-        search = request.POST['Search']
+        search = request.POST.get('search','')
 
-        api_url = f'http://127.0.0.1:8000/search/{search}'
+        api_url = f'http://127.0.0.1:8000/search/{search}/ '
 
         try:
             response = requests.get(api_url)
-
-            print(response.status_code)
             if response.status_code == 200:
                 data = response.json()
+                return render(request, 'index.html', {'data': data})
             else:
-                data=None
+                return render(request, 'index.html', {'error_message': f'Error: {response.status_code}'})
         except requests.RequestException as e:
-            data=None
+            return render(request, 'index.html', {'error_message': f'Error: {str(e)}'})
 
-        return render(request, 'index.html',{'data' :data})
+
     else:
         api_url = f'http://127.0.0.1:8000/create/'
         try:
             response = requests.get(api_url)
 
             if response.status_code == 200:
-                data = response.json()
-                original_data=data
+                original_data = response.json()
+
 
                 paginator=Paginator(original_data, 6)
 
                 try:
-                    page=int(request.GET.get('page',1))
+                    page=(request.GET.get('page',1))
                 except:
                     page = 1
                 try:
@@ -148,11 +151,10 @@ def tour_fetch(request,id):
         return render(request, 'tour_fetch.html', {'tour': data})
     return render(request,'tour_fetch.html')
 
-def tour_delete(request,id):
+def delete_tour(request,id):
     api_url = f'http://127.0.0.1:8000/delete/{id}/'
 
     response = requests.delete(api_url)
-
     if response.status_code == 200:
         print(f'Item with id{id} has been deleted')
     else:

@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<h1>DELETE TOUR DETAILS {{ index.name}}</h1>
+<h1>DELETE TOUR DETAILS </h1>
 
-<form action="" method="post">
+<form action="{% url 'delete_tour' index.id %}" method="POST">
     {% csrf_token %}
-    <h2>Are you sure?</h2>
-    <input type="submit" value="Confirm delete">
+    <p>Are you sure? {{ index.name }}</p>
+    <button type="submit">DELETE</button>
 </form>
 
 </body>

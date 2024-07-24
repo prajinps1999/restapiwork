@@ -3,26 +3,15 @@
 {% block content %}
 <h3> ADD TOUR</h3>
 <div>
-    <a href="create_tour /">Create</a>
-    <form  action=" "  role="search" method='POST'>
+    <a href="/create_tour/" class="btn btn-primary" >Create</a>
+    <form class="search-form d-flex align-items-center" action="#" method='POST'>
     {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search" name="q" aria-label="Search">
-        <label for="">PLACE NAME</label>
-        <input type="text" name="name" placeholder="ENTER PLACE NAME" value="{{index.name}}">
-        <label for="">WEATHER</label>
-        <input type="text" name="weather" placeholder="ENTER WEATHER" value="{{index.weather}}">
-        <label for="">LOCATION STATE</label>
-        <input type="text" name="location_state" placeholder=" ENTER STATE" value="{{index.location_state}}">
-        <label for="">LOCATION DISTRICT</label>
-        <input type="text" name="location_district" placeholder=" ENTER DISTRICT" value="{{index.location_district}}">
-        <label for="">DESCRIPTION</label>
-        <input type="text" name="description" placeholder=" ENTER DESCRIPTION" value="{{index.description}}"><br>
-        <input type="submit" value="UPDATE">
+        <input type="search" name="search" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
 
 </div>
 <table class="table" align="100px" >
-
     <thead>
     <tr>
         <th scope="col">NO</th>
@@ -35,7 +24,6 @@
 
     </tr>
     </thead>
-
     <tbody>
         {% if data %}
         {% for data in data %}
@@ -49,13 +37,13 @@
 
             <td>
                 <a href="/detail/{{data.id}}" class="btn btn-primary">DETAILS</a>
-                <a href="/update/{{data.id}}" class="btn btn-success">UPDATE</a>
-                <a href="/delete/{{data.id}}" class="btn btn-danger">DELETE</a>
+                <a href="/update_tour/{{data.id}}" class="btn btn-success">UPDATE</a>
+                <a href="/delete_tour/{{data.id}}" class="btn btn-danger">DELETE</a>
 
             </td>
-    </tr>
+        </tr>
         {% endfor %}
-    {% else %}
+        {% else %}
         {% for tours in tour %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
@@ -66,16 +54,25 @@
             <td>{{ tours.Description }}</td>
 
             <td>
-                <a href="/detail/{{tours.id}}" class="btn btn-primary">DETAILS</a>
-                <a href="/update/{{tours.id}}" class="btn btn-success">UPDATE</a>
-                <a href="/delete/{{tours.id}}" class="btn btn-danger">DELETE</a>
+                <a href="/tour_fetch/{{tours.id}}" class="btn btn-primary">DETAILS</a>
+                <a href="/update_tour/{{tours.id}}" class="btn btn-success">UPDATE</a>
+                <a href="/delete_tour/{{tours.id}}" class="btn btn-danger">DELETE</a>
 
             </td>
-    </tr>
+        </tr>
         {% endfor %}
     {% endif %}
 
     </tbody>
 </table>
+     <div class="mx-auto" style="margin-bottom: 38px; margin-top: 30px;">
+          {% if tour.paginator.num_pages > 1 %}
+              <div class="text-center">
+                  {% for pg in tour.paginator.page_range %}
+                      <a href="?page={{ pg }}" class="btn btn-primary btn-sn {% if tour.number == pg %}active{% endif %}">{{ pg }}</a>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
 {% endblock %}
 
